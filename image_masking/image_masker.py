@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 class ImageMasker:
-    def __init__(self, image, mask, threshold=0.3):
+    def __init__(self, image, mask, threshold=0.1):
         """
         This class expects an image in RGB format which can be easily converted to (1024x1024x3)
         Then it expects an mask in gray scale format which when converted to ndarray is (1024x1024)
@@ -34,6 +34,6 @@ class ImageMasker:
 
 
 if __name__ == "__main__":
-    ImageMasker = ImageMasker('27.jpg', '32435.png')
+    ImageMasker = ImageMasker('27.jpg', '00062_train.png')
     plt.imshow(ImageMasker.get_masked_image())
     plt.show()
