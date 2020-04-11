@@ -4,18 +4,36 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-# https://note.nkmk.me/en/python-opencv-pillow-image-size/
-# TODO: Find the image specifications standards in Python. 3x1024x1024 or 1024x1024x3?
+class ImageMasker:
+    def __init__(self, image, mask, threshold=0.3):
+        """
+        This class expects an image in RGB format which can be easily converted to (1024x1024x3)
+        Then it expects an mask in gray scale format which when converted to ndarray is (1024x1024)
+        By default if the gray scale is 0.3 it will consider it as 0.0 and blackens it
+        :param image:
+        :param mask:
+        :param threshold:
+        """
+        mask = imageio.imread(mask)
+        self.im = np.asarray(imageio.imread(image))
+        try:
+            rows, columns, channels = self.im.shape
+            assert channels == 3
+        except ValueError:
+            print("Probably the input image is not in RGB format. Make sure it's in RGB")
+            exit(1)
+        im_resized = resize(mask, (rows, columns), anti_aliasing=True)
+        idx = (im_resized <= threshold)
+        for each_channel in range(channels):
+            self.im[:, :, each_channel][idx] = 0.0
+            self.im[:, :, each_channel][idx] = 0.0
+            self.im[:, :, each_channel][idx] = 0.0
+
+    def get_masked_image(self) -> np.ndarray:
+        return self.im
+
+
 if __name__ == "__main__":
-    im = imageio.imread('32435.png')
-    im_resized = resize(im, (1024, 1024), anti_aliasing=True)
-    mask_img = []
-    for _ in range(3):
-        mask_img.append(im_resized)
-    mask_img = np.array(mask_img)
-    plt.imshow(mask_img)
+    ImageMasker = ImageMasker('27.jpg', '32435.png')
+    plt.imshow(ImageMasker.get_masked_image())
     plt.show()
-    im = np.asarray(imageio.imread('27.jpg'))
-    idx = (im_resized == 0)
-    im[idx] = mask_img[idx]
-    plt.show(im)
