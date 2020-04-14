@@ -6,7 +6,7 @@ import random
 import imageio
 import pathlib
 
-test_data_percentage = 10
+test_data_percentage = 5
 
 
 def get_random_mask():
@@ -14,7 +14,7 @@ def get_random_mask():
     This will generate a random mask from the global variable mask_dataset
     I know it's bad, but it was the best optimal way
     Sorry!
-    :return:
+    :return: random filepath in string format
     """
     return random.choice(mask_dataset)
 
