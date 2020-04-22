@@ -9,7 +9,7 @@ class ImageMasker:
         """
         This class expects an image in RGB format which can be easily converted to (1024x1024x3)
         Then it expects an mask in gray scale format which when converted to ndarray is (1024x1024)
-        By default if the gray scale is 0.3 it will consider it as 0.0 and blackens it
+        By default if the gray scale is 0.3 it will consider it as 1.0 and whitens (masks) it
         :param image:
         :param mask:
         :param threshold:
@@ -25,9 +25,9 @@ class ImageMasker:
         im_resized = resize(mask, (rows, columns), anti_aliasing=True)
         idx = (im_resized <= threshold)
         for each_channel in range(channels):
-            self.im[:, :, each_channel][idx] = 0.0
-            self.im[:, :, each_channel][idx] = 0.0
-            self.im[:, :, each_channel][idx] = 0.0
+            self.im[:, :, each_channel][idx] = 1.0
+            self.im[:, :, each_channel][idx] = 1.0
+            self.im[:, :, each_channel][idx] = 1.0
 
     def get_masked_image(self) -> np.ndarray:
         return self.im
