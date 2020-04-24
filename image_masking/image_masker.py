@@ -2,6 +2,7 @@ import imageio
 from skimage.transform import resize
 import numpy as np
 import matplotlib.pyplot as plt
+from config import *
 
 
 class ImageMasker:
@@ -15,6 +16,7 @@ class ImageMasker:
         :param threshold:
         """
         mask = imageio.imread(mask)
+        image = resize(mask, (image_height, image_width), anti_aliasing=True)
         self.im = np.asarray(imageio.imread(image))
         try:
             rows, columns, channels = self.im.shape
@@ -22,8 +24,8 @@ class ImageMasker:
         except ValueError:
             print("Probably the input image is not in RGB format. Make sure it's in RGB")
             exit(1)
-        im_resized = resize(mask, (rows, columns), anti_aliasing=True)
-        idx = (im_resized <= threshold)
+        mask_resized = resize(mask, (rows, columns), anti_aliasing=True)
+        idx = (mask_resized <= threshold)
         for each_channel in range(channels):
             self.im[:, :, each_channel][idx] = 1.0
             self.im[:, :, each_channel][idx] = 1.0
